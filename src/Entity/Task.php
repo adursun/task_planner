@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\TaskInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,6 +26,12 @@ class Task
      * @ORM\Column(type="integer")
      */
     private $workload;
+
+    public function __construct(TaskInterface $taskInterface)
+    {
+        $this->name = $taskInterface->getName();
+        $this->workload = $taskInterface->getWorkload();
+    }
 
     public function getId(): ?int
     {
