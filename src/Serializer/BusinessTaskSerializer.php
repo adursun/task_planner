@@ -46,7 +46,7 @@ class BusinessTaskSerializer
 
     /**
      * @param $data
-     * @return BusinessTask[]|array
+     * @return BusinessTask[]
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function deserializeMany($data)
