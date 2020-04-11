@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,17 +15,27 @@ class Developer
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=63)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $hourlyWork;
+    private int $hourlyWork;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Task", mappedBy="developer")
+     */
+    private $tasks;
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -53,5 +64,15 @@ class Developer
         $this->hourlyWork = $hourlyWork;
 
         return $this;
+    }
+
+    public function getTasks(): iterable
+    {
+        return $this->tasks;
+    }
+
+    public function setTasks(ArrayCollection $tasks): void
+    {
+        $this->tasks = $tasks;
     }
 }

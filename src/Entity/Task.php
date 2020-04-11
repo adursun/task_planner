@@ -17,17 +17,22 @@ class Task
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $workload;
+    private int $workload;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Developer", inversedBy="tasks")
+     */
+    private Developer $developer;
 
     public function __construct(TaskInterface $taskInterface)
     {
@@ -62,5 +67,15 @@ class Task
         $this->workload = $workload;
 
         return $this;
+    }
+
+    public function getDeveloper(): Developer
+    {
+        return $this->developer;
+    }
+
+    public function setDeveloper(Developer $developer): void
+    {
+        $this->developer = $developer;
     }
 }
