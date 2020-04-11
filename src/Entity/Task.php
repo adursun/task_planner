@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Model\TaskInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TaskRepository")
+ * @ORM\Table(indexes={@Index(name="sort_idx", columns={"workload"})})
  */
 class Task
 {
