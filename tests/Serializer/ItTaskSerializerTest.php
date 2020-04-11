@@ -24,6 +24,8 @@ class ItTaskSerializerTest extends TestCase
         $serializer = new ItTaskSerializer();
         $tasks = $serializer->deserializeMany($jsonString);
 
+        $this->assertCount(2, $tasks);
+
         $this->assertEquals('IT Task 0', $tasks[0]->getId());
         $this->assertEquals(3, $tasks[0]->getZorluk());
         $this->assertEquals(6, $tasks[0]->getSure());
