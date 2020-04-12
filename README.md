@@ -1,7 +1,9 @@
 # Task Planner
 
 ## Design Decisions
-- Every developer can work on every task
+
+- Every developer should be able to work on every task
+- Dynamic weekly hours should be supported
 
 ## Dependencies
 
@@ -11,6 +13,13 @@
 - Docker
 
 ## Commands
+
+### Git
+```bash
+git@github.com:adursun/task_planner.git
+cd task_planner/
+composer install
+```
 
 ### Docker
 
@@ -34,8 +43,14 @@ php bin/console doctrine:fixtures:load -n
 php bin/phpunit --verbose --coverage-html coverage
 ```
 
-### Collect Tasks
+### Task Collector
 
 ```bash
 php bin/console app:collect_tasks
+```
+
+### Server
+
+```bash
+symfony server:start
 ```
