@@ -22,6 +22,19 @@ class ItTaskService implements TaskServiceInterface
     }
 
     /**
+     * @return string
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function getContent(): string
+    {
+        $response = $this->client->request('GET', self::BASE_URL);
+        return $response->getContent();
+    }
+
+    /**
      * @return Task[]|array
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
@@ -30,8 +43,8 @@ class ItTaskService implements TaskServiceInterface
      */
     public function getTasks()
     {
-        $response = $this->client->request('GET', self::BASE_URL);
-        $itTasks = $this->serializer->deserializeMany($response->getContent());
+
+        $itTasks = $this->serializer->deserializeMany($this->getContent());
         /** @var Task[] $tasks */
         $tasks = [];
 

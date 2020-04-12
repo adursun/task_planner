@@ -22,6 +22,19 @@ class BusinessTaskService implements TaskServiceInterface
     }
 
     /**
+     * @return string
+     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
+     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
+     */
+    public function getContent(): string
+    {
+        $response = $this->client->request('GET', self::BASE_URL);
+        return $response->getContent();
+    }
+
+    /**
      * @return Task[]|array
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
@@ -31,8 +44,7 @@ class BusinessTaskService implements TaskServiceInterface
      */
     public function getTasks()
     {
-        $response = $this->client->request('GET', self::BASE_URL);
-        $businessTasks = $this->serializer->deserializeMany($response->getContent());
+        $businessTasks = $this->serializer->deserializeMany($this->getContent());
         /** @var Task[] $tasks */
         $tasks = [];
 
