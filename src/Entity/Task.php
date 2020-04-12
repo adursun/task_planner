@@ -69,6 +69,22 @@ class Task
         return $this;
     }
 
+    public function decreaseWorkload(int $by): self
+    {
+        $this->workload -= $by;
+
+        if ($this->workload < 0) {
+            $this->workload = 0;
+        }
+
+        return $this;
+    }
+
+    public function isFinished(): bool
+    {
+        return $this->workload <= 0;
+    }
+
     public function getDeveloper(): Developer
     {
         return $this->developer;

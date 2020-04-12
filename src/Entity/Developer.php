@@ -32,6 +32,8 @@ class Developer
      */
     private $tasks;
 
+    private ?Task $currentTask = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -74,5 +76,29 @@ class Developer
     public function setTasks(ArrayCollection $tasks): void
     {
         $this->tasks = $tasks;
+    }
+
+    /**
+     * @return Task|null
+     */
+    public function getCurrentTask(): ?Task
+    {
+        return $this->currentTask;
+    }
+
+    /**
+     * @param Task|null $currentTask
+     * @return $this
+     */
+    public function setCurrentTask(?Task $currentTask): self
+    {
+        $this->currentTask = $currentTask;
+
+        return $this;
+    }
+
+    public function work(int $hours=1): void
+    {
+        $this->currentTask->decreaseWorkload($by=$this->hourlyWork * $hours);
     }
 }
