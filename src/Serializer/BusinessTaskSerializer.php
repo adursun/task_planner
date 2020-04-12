@@ -3,7 +3,6 @@
 namespace App\Serializer;
 
 use App\Model\BusinessTask;
-use Symfony\Component\Serializer\Encoder\DecoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonDecode;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
@@ -14,11 +13,11 @@ class BusinessTaskSerializer
 {
     private Serializer $serializer;
 
-    private DecoderInterface $decoder;
+    private JsonDecode $decoder;
 
-    public function __construct(DecoderInterface $decoder)
+    public function __construct()
     {
-        $this->decoder = $decoder;
+        $this->decoder = new JsonDecode();
 
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer(), new ArrayDenormalizer()];
@@ -46,7 +45,7 @@ class BusinessTaskSerializer
 
     /**
      * @param $data
-     * @return BusinessTask[]
+     * @return BusinessTask[]|array
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function deserializeMany($data)
