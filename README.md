@@ -28,6 +28,12 @@ php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
 ```
 
+### PHPUnit
+
+```bash
+php bin/phpunit --verbose --coverage-html coverage
+```
+
 ### Collect Tasks
 
 ```bash
