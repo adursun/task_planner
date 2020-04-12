@@ -100,5 +100,9 @@ class Developer
     public function work(int $hours=1): void
     {
         $this->currentTask->decreaseWorkload($by=$this->hourlyWork * $hours);
+
+        if ($this->currentTask->isFinished()) {
+            $this->currentTask = null;
+        }
     }
 }
