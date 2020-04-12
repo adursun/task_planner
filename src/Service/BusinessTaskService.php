@@ -5,17 +5,17 @@ namespace App\Service;
 use App\Entity\Task;
 use App\Model\BusinessTaskAdapter;
 use App\Serializer\BusinessTaskSerializer;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use GuzzleHttp\Client;
 
 class BusinessTaskService implements TaskServiceInterface
 {
     private const BASE_URL = 'http://www.mocky.io/v2/5d47f235330000623fa3ebf7';
 
-    private HttpClientInterface $client;
+    private Client $client;
 
     private BusinessTaskSerializer $serializer;
 
-    public function __construct(HttpClientInterface $client, BusinessTaskSerializer $serializer)
+    public function __construct(Client $client, BusinessTaskSerializer $serializer)
     {
         $this->client = $client;
         $this->serializer = $serializer;
@@ -23,24 +23,16 @@ class BusinessTaskService implements TaskServiceInterface
 
     /**
      * @return string
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function getContent(): string
     {
         $response = $this->client->request('GET', self::BASE_URL);
-        return $response->getContent();
+        return $response->getBody();
     }
 
     /**
      * @return Task[]|array
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
      */
     public function getTasks()
     {

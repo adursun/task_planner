@@ -27,3 +27,6 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Serializer\BusinessTaskSerializer:
         public: true
+
+    GuzzleHttp\Client:
+        public: true
