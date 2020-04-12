@@ -34,6 +34,16 @@ class Task
      */
     private Developer $developer;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $startWeek = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $endWeek = 0;
+
     public function __construct(TaskInterface $taskInterface)
     {
         $this->name = $taskInterface->getName();
@@ -93,5 +103,29 @@ class Task
     public function setDeveloper(Developer $developer): void
     {
         $this->developer = $developer;
+    }
+
+    public function getStartWeek(): ?int
+    {
+        return $this->startWeek;
+    }
+
+    public function setStartWeek(int $startWeek): self
+    {
+        $this->startWeek = $startWeek;
+
+        return $this;
+    }
+
+    public function getEndWeek(): ?int
+    {
+        return $this->endWeek;
+    }
+
+    public function setEndWeek(int $endWeek): self
+    {
+        $this->endWeek = $endWeek;
+
+        return $this;
     }
 }
