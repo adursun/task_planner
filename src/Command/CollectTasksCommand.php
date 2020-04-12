@@ -34,13 +34,20 @@ class CollectTasksCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $taskCount = 0;
+
         foreach ($this->services as $service) {
-            foreach ($service->getTasks() as $task) {
+            $tasks = $service->getTasks();
+            $taskCount += count($tasks);
+
+            foreach ($tasks as $task) {
                 $this->em->persist($task);
             }
         }
 
         $this->em->flush();
+
+        $output->writeln('<info>Collected '. $taskCount . ' tasks.</info>');
 
         return 0;
     }
