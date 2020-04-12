@@ -12,6 +12,7 @@
 .phpunit
 .phpunit.result.cache
 /phpunit.xml
+coverage/
 
 # PhpStorm
 .idea/
