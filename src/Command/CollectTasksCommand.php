@@ -2,11 +2,9 @@
 
 namespace App\Command;
 
-use App\Entity\Task;
-use App\Model\BusinessTaskAdapter;
-use App\Model\ItTaskAdapter;
 use App\Service\BusinessTaskService;
 use App\Service\ItTaskService;
+use App\Service\TaskServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -16,17 +14,15 @@ class CollectTasksCommand extends Command
 {
     private EntityManagerInterface $em;
 
-    private ItTaskService $itTasksService;
-
-    private BusinessTaskService $businessTasksService;
+    /** @var TaskServiceInterface[] */
+    private array $services;
 
     protected static $defaultName = 'app:collect_tasks';
 
     public function __construct(EntityManagerInterface $em, ItTaskService $itTasksService, BusinessTaskService $businessTasksService)
     {
         $this->em = $em;
-        $this->itTasksService = $itTasksService;
-        $this->businessTasksService = $businessTasksService;
+        $this->services = [$itTasksService, $businessTasksService];
 
         parent::__construct();
     }
@@ -38,20 +34,10 @@ class CollectTasksCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $itTasks = $this->itTasksService->getTasks();
-
-        foreach ($itTasks as $itTask) {
-            $taskAdapter = new ItTaskAdapter($itTask);
-            $task = new Task($taskAdapter);
-            $this->em->persist($task);
-        }
-
-        $businessTasks = $this->businessTasksService->getTasks();
-
-        foreach ($businessTasks as $businessTask) {
-            $taskAdapter = new BusinessTaskAdapter($businessTask);
-            $task = new Task($taskAdapter);
-            $this->em->persist($task);
+        foreach ($this->services as $service) {
+            foreach ($service->getTasks() as $task) {
+                $this->em->persist($task);
+            }
         }
 
         $this->em->flush();

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Task;
+use App\Model\BusinessTaskAdapter;
 use App\Serializer\BusinessTaskSerializer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -20,7 +22,7 @@ class BusinessTaskService implements TaskServiceInterface
     }
 
     /**
-     * @return \App\Model\BusinessTask[]
+     * @return Task[]|array
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
@@ -30,6 +32,14 @@ class BusinessTaskService implements TaskServiceInterface
     public function getTasks()
     {
         $response = $this->client->request('GET', self::BASE_URL);
-        return $this->serializer->deserializeMany($response->getContent());
+        $businessTasks = $this->serializer->deserializeMany($response->getContent());
+        /** @var Task[] $tasks */
+        $tasks = [];
+
+        foreach ($businessTasks as $businessTask) {
+            $tasks[] = new Task(new BusinessTaskAdapter($businessTask));
+        }
+
+        return $tasks;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Task;
+use App\Model\ItTaskAdapter;
 use App\Serializer\ItTaskSerializer;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -20,7 +22,7 @@ class ItTaskService implements TaskServiceInterface
     }
 
     /**
-     * @return \App\Model\ItTask[]
+     * @return Task[]|array
      * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
      * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
@@ -29,6 +31,14 @@ class ItTaskService implements TaskServiceInterface
     public function getTasks()
     {
         $response = $this->client->request('GET', self::BASE_URL);
-        return $this->serializer->deserializeMany($response->getContent());
+        $itTasks = $this->serializer->deserializeMany($response->getContent());
+        /** @var Task[] $tasks */
+        $tasks = [];
+
+        foreach ($itTasks as $itTask) {
+            $tasks[] = new Task(new ItTaskAdapter($itTask));
+        }
+
+        return $tasks;
     }
 }
