@@ -30,6 +30,11 @@ class Task
     private int $workload;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private int $remainingWorkload;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Developer", inversedBy="tasks")
      */
     private Developer $developer;
@@ -48,6 +53,7 @@ class Task
     {
         $this->name = $taskInterface->getName();
         $this->workload = $taskInterface->getWorkload();
+        $this->remainingWorkload = $this->workload;
     }
 
     public function getId(): ?int
@@ -79,12 +85,22 @@ class Task
         return $this;
     }
 
-    public function decreaseWorkload(int $by): self
+    public function getRemainingWorkload(): int
     {
-        $this->workload -= $by;
+        return $this->remainingWorkload;
+    }
 
-        if ($this->workload < 0) {
-            $this->workload = 0;
+    public function setRemainingWorkload(int $remainingWorkload): void
+    {
+        $this->remainingWorkload = $remainingWorkload;
+    }
+
+    public function decreaseRemainingWorkload(int $by): self
+    {
+        $this->remainingWorkload -= $by;
+
+        if ($this->remainingWorkload < 0) {
+            $this->remainingWorkload = 0;
         }
 
         return $this;
@@ -92,7 +108,7 @@ class Task
 
     public function isFinished(): bool
     {
-        return $this->workload <= 0;
+        return $this->remainingWorkload <= 0;
     }
 
     public function getDeveloper(): Developer
