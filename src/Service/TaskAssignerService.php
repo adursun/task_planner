@@ -24,7 +24,7 @@ class TaskAssignerService
         $this->developerRepository = $developerRepository;
     }
 
-    public function assignTasks(): void
+    public function assignTasks(int $weeklyWorkingHour=45): void
     {
         $this->taskRepository->resetAll();
 
@@ -46,7 +46,7 @@ class TaskAssignerService
         while (count($developers) > 0) {
             $week++;
 
-            for ($i = 0; $i < 45; $i++) {
+            for ($i = 0; $i < $weeklyWorkingHour; $i++) {
                 foreach ($developers as $developer) {
                     if ($developer->getCurrentTask() === null) {
                         $task = array_shift($tasks);
