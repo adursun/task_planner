@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Workload</th>
+                            <th>Start Week</th>
+                            <th>End Week</th>
+                            <th>Developer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                            <tr>
+                                <td>{{ task.id }}</td>
+                                <td>{{ task.name }}</td>
+                                <td>{{ task.workload }}</td>
+                                <td>{{ task.startWeek }}</td>
+                                <td>{{ task.endWeek }}</td>
+                                <td>{{ task.developer.name }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
