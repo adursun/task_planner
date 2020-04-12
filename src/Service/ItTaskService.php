@@ -11,7 +11,7 @@ class ItTaskService implements TaskServiceInterface
 
     private HttpClientInterface $client;
 
-    private ItTaskSerializer $itTaskSerializer;
+    private ItTaskSerializer $serializer;
 
     public function __construct(HttpClientInterface $client, ItTaskSerializer $serializer)
     {
