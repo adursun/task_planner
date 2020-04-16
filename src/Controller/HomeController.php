@@ -14,6 +14,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="home", methods={"GET", "POST"})
+     * @param Request $request
      * @param TaskRepository $taskRepository
      * @param TaskAssignerService $taskAssigner
      * @return Response
