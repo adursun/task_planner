@@ -15,8 +15,9 @@
 ## Commands
 
 ### Git
+
 ```bash
-git@github.com:adursun/task_planner.git
+git clone git@github.com:adursun/task_planner.git
 cd task_planner/
 composer install
 ```
